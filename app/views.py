@@ -22,7 +22,7 @@ def cadastro_usuario(request):
             return redirect("login")
     else:
         form = UsuarioForm()
-    return render(request, "usuarios/cadastro.html", {"form": form})
+    return render(request, "cadastro.html", {"form": form})
 
 
 # Login de usuário
@@ -36,7 +36,7 @@ def login_usuario(request):
             return redirect("index")
         else:
             messages.error(request, "Email ou senha incorretos!")
-    return render(request, "usuarios/login.html")
+    return render(request, "login.html")
 
 
 # Logout
@@ -48,7 +48,7 @@ def logout_usuario(request):
 # Listagem de caronas
 def lista_caronas(request):
     caronas = Carona.objects.all().order_by("data")
-    return render(request, "caronas/lista.html", {"caronas": caronas})
+    return render(request, "lista_caronas.html", {"caronas": caronas})
 
 
 # Publicar nova carona
@@ -63,13 +63,13 @@ def publicar_carona(request):
             return redirect("lista_caronas")
     else:
         form = CaronaForm()
-    return render(request, "caronas/nova.html", {"form": form})
+    return render(request, "publicar_carona.html", {"form": form})
 
 
 # Detalhes da carona
 def detalhes_carona(request, id_carona):
     carona = get_object_or_404(Carona, id_carona=id_carona)
-    return render(request, "caronas/detalhes.html", {"carona": carona})
+    return render(request, "detalhes_carona.html", {"carona": carona})
 
 
 # Redirecionar para WhatsApp
@@ -93,4 +93,4 @@ def avaliar_usuario(request, id_usuario):
             return redirect("lista_caronas")
     else:
         form = AvaliacaoForm()
-    return render(request, "avaliacoes/avaliar.html", {"form": form, "usuario": usuario_avaliado})
+    return render(request, "avaliar_usuario.html", {"form": form, "usuario": usuario_avaliado})

@@ -12,8 +12,8 @@ urlpatterns = [
     # Páginas principais do app
     # ------------------------------
     path('', views.index, name='index'),
-    path('login/', views.login_usuario, name='login'),
-    path('cadastro/', views.cadastro_usuario, name='cadastro'),
+    path('login.html', views.login_usuario, name='login'),
+    path('cadastro.html', views.cadastro_usuario, name='cadastro'),
 
     # ------------------------------
     # Caronas
