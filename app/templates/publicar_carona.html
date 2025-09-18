@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vai e Vem - Publicar Carona</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-car-side me-2"></i>Vai e Vem
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_caronas' %}">Procurar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Minhas Caronas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="#">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
+        <div class="container">
+            <h1 class="mb-3">Publicar Carona</h1>
+            <p class="lead">Compartilhe sua carona e ajude outros estudantes a viajarem de forma econômica e segura.</p>
+        </div>
+    </section>
+
+    <!-- Formulário Publicar Carona -->
+    <section class="publish-carona py-5">
+        <div class="container">
+            <div class="card shadow-sm p-4">
+                <h4 class="mb-4">Informações da Carona</h4>
+                <form method="POST" action="{% url 'salvar_carona' %}">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="cidade_partida" class="form-label">Cidade de Partida</label>
+                            <input type="text" class="form-control" id="cidade_partida" name="cidade_partida" placeholder="Ex: Guaxupé" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cidade_destino" class="form-label">Cidade de Destino</label>
+                            <input type="text" class="form-control" id="cidade_destino" name="cidade_destino" placeholder="Ex: Poços de Caldas" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="data" class="form-label">Data</label>
+                            <input type="date" class="form-control" id="data" name="data" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="hora" class="form-label">Hora</label>
+                            <input type="time" class="form-control" id="hora" name="hora" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="lugares" class="form-label">Lugares Disponíveis</label>
+                            <input type="number" class="form-control" id="lugares" name="lugares" min="1" placeholder="Ex: 3" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="observacoes" class="form-label">Observações</label>
+                            <textarea class="form-control" id="observacoes" name="observacoes" rows="3" placeholder="Ex: Aceito bagagem pequena" ></textarea>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-primary mt-3">Publicar Carona</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-light py-3 mt-5 shadow-sm">
+        <div class="container text-center">
+            <p>&copy; 2024 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'scripts.js' %}"></script>
+</body>
+</html>

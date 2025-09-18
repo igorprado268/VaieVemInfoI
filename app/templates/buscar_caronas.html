@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vai e Vem - Buscar Carona</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-car-side me-2"></i>Vai e Vem
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_caronas' %}">Procurar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Minhas Caronas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="#">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
+        <div class="container">
+            <h1 class="mb-3">Buscar Caronas</h1>
+            <p class="lead">Encontre caronas disponíveis de acordo com sua rota e datas.</p>
+        </div>
+    </section>
+
+    <!-- Filtro de Busca -->
+    <section class="search py-5">
+        <div class="container">
+            <form class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Cidade de partida">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Cidade de destino">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" placeholder="Data">
+                </div>
+                <div class="col-md-1 d-grid">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+
+            <!-- Lista de Caronas -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1">Cidade A → Cidade B</h5>
+                                <small class="text-muted">28 de maio • 3 lugares disponíveis</small>
+                            </div>
+                            <a href="#" class="btn btn-primary">Ver Carona</a>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1">Cidade C → Cidade D</h5>
+                                <small class="text-muted">30 de maio • 2 lugares disponíveis</small>
+                            </div>
+                            <a href="#" class="btn btn-primary">Ver Carona</a>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1">Cidade E → Cidade F</h5>
+                                <small class="text-muted">2 de junho • 4 lugares disponíveis</small>
+                            </div>
+                            <a href="#" class="btn btn-primary">Ver Carona</a>
+                        </div>
+                    </div>
+                    <!-- Você pode repetir o card dinamicamente com Django -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-light py-3 mt-5 shadow-sm">
+        <div class="container text-center">
+            <p>&copy; 2024 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'scripts.js' %}"></script>
+</body>
+</html>

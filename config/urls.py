@@ -14,6 +14,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login.html', views.login_usuario, name='login'),
     path('cadastro.html', views.cadastro_usuario, name='cadastro'),
+    path('home.html', views.home, name='home'),
 
     # ------------------------------
     # Caronas
