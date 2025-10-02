@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'lista_caronas' %}">Procurar Carona</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Minhas Caronas</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
                     <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="#">Sair</a></li>
@@ -49,36 +49,15 @@
         <div class="container">
             <div class="card shadow-sm p-4">
                 <h4 class="mb-4">Informações da Carona</h4>
-                <form method="POST" action="{% url 'salvar_carona' %}">
+                
+                <!-- Form Django -->
+                <form method="POST" action="{% url 'publicar_carona' %}">
                     {% csrf_token %}
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="cidade_partida" class="form-label">Cidade de Partida</label>
-                            <input type="text" class="form-control" id="cidade_partida" name="cidade_partida" placeholder="Ex: Guaxupé" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="cidade_destino" class="form-label">Cidade de Destino</label>
-                            <input type="text" class="form-control" id="cidade_destino" name="cidade_destino" placeholder="Ex: Poços de Caldas" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="data" class="form-label">Data</label>
-                            <input type="date" class="form-control" id="data" name="data" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="hora" class="form-label">Hora</label>
-                            <input type="time" class="form-control" id="hora" name="hora" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="lugares" class="form-label">Lugares Disponíveis</label>
-                            <input type="number" class="form-control" id="lugares" name="lugares" min="1" placeholder="Ex: 3" required>
-                        </div>
-                        <div class="col-12">
-                            <label for="observacoes" class="form-label">Observações</label>
-                            <textarea class="form-control" id="observacoes" name="observacoes" rows="3" placeholder="Ex: Aceito bagagem pequena" ></textarea>
-                        </div>
-                        <div class="col-12 text-end">
-                            <button type="submit" class="btn btn-primary mt-3">Publicar Carona</button>
-                        </div>
+                        {{ form.as_p }}
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-primary mt-3">Publicar Carona</button>
                     </div>
                 </form>
             </div>

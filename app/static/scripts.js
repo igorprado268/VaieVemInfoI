@@ -74,3 +74,34 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 })
+
+
+document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const senha = document.getElementById('senha').value;
+  const confirmarSenha = document.getElementById('confirmarSenha').value;
+  const email = document.getElementById('email').value;
+
+  if (senha !== confirmarSenha) {
+      alert('As senhas não coincidem!');
+      return;
+  }
+
+  if (!email.includes('@alunos.ifsuldeminas.edu.br') && !email.includes('@ifsuldeminas.edu.br')) {
+      alert('Por favor, use seu e-mail institucional do IF Sul de Minas!');
+      return;
+  }
+
+  if (senha.length < 6) {
+      alert('A senha deve ter pelo menos 6 caracteres!');
+      return;
+  }
+
+  // preencher o username escondido com o e-mail (ou outra lógica desejada)
+  document.getElementById('username').value = email;
+
+  // finalmente enviar para o Django (vai gerar POST para a view 'cadastro')
+  form.submit();
+});

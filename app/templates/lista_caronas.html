@@ -28,9 +28,9 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'lista_caronas' %}">Procurar Carona</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Minhas Caronas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="#">Sair</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'minhas_caronas' %}">Minhas Caronas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'perfil_usuario' %}">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="{% url 'logout' %}">Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -48,15 +48,15 @@
     <section class="caronas py-5">
         <div class="container">
             <!-- Filtro opcional -->
-            <form class="row g-3 mb-4">
+            <form class="row g-3 mb-4" method="get">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="Cidade de partida" name="cidade_partida">
+                    <input type="text" class="form-control" placeholder="Cidade de partida" name="cidade_partida" value="{{ request.GET.cidade_partida }}">
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="Cidade de destino" name="cidade_destino">
+                    <input type="text" class="form-control" placeholder="Cidade de destino" name="cidade_destino" value="{{ request.GET.cidade_destino }}">
                 </div>
                 <div class="col-md-3">
-                    <input type="date" class="form-control" name="data">
+                    <input type="date" class="form-control" name="data" value="{{ request.GET.data }}">
                 </div>
                 <div class="col-md-1 d-grid">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
@@ -70,15 +70,14 @@
                     <div class="card shadow-sm">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title mb-1">{{ carona.cidade_partida }} → {{ carona.cidade_destino }}</h5>
+                                <h5 class="card-title mb-1">{{ carona.origem }} → {{ carona.destino }}</h5>
                                 <p class="mb-1"><strong>Data:</strong> {{ carona.data }}</p>
-                                <p class="mb-1"><strong>Hora:</strong> {{ carona.hora }}</p>
-                                <p class="mb-1"><strong>Lugares disponíveis:</strong> {{ carona.lugares }}</p>
+                                <p class="mb-1"><strong>Vagas disponíveis:</strong> {{ carona.vagas }}</p>
                                 {% if carona.observacoes %}
                                 <p class="text-muted mb-0"><strong>Observações:</strong> {{ carona.observacoes }}</p>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'detalhes_carona' carona.id %}" class="btn btn-primary">Ver Carona</a>
+                            <a href="{% url 'detalhes_carona' carona.id_carona %}" class="btn btn-primary">Ver Carona</a>
                         </div>
                     </div>
                 </div>

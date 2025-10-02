@@ -28,9 +28,9 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'lista_caronas' %}">Procurar Carona</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
-                    <li class="nav-item"><a class="nav-link" href="minhas_caronas.html">Minhas Caronas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="#">Sair</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'minhas_caronas' %}">Minhas Caronas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'perfil_usuario' %}">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="{% url 'logout_usuario' %}">Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -39,7 +39,7 @@
     <!-- Hero Section -->
     <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
         <div class="container">
-            <h1 class="mb-3">Bem-vindo, Samuel!</h1>
+            <h1 class="mb-3">Bem-vindo, {{ request.user.nome }}!</h1>
             <p class="lead">Gerencie suas caronas, encontre colegas e viaje de forma mais econômica e sustentável.</p>
         </div>
     </section>
@@ -49,7 +49,7 @@
         <div class="container">
             <div class="row text-center mb-5">
                 <div class="col-md-3 mb-3">
-                    <a href="publicar_carona.html" class="btn btn-light w-100 py-4 shadow-sm rounded-3 text-decoration-none">
+                    <a href="{% url 'publicar_carona' %}" class="btn btn-light w-100 py-4 shadow-sm rounded-3 text-decoration-none">
                         <i class="fas fa-car fa-2x mb-2"></i>
                         <div>Publicar Carona</div>
                     </a>
@@ -61,13 +61,13 @@
                     </a>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <a href="#" class="btn btn-light w-100 py-4 shadow-sm rounded-3 text-decoration-none">
+                    <a href="{% url 'minhas_caronas' %}" class="btn btn-light w-100 py-4 shadow-sm rounded-3 text-decoration-none">
                         <i class="fas fa-users fa-2x mb-2"></i>
                         <div>Minhas Caronas</div>
                     </a>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <a href="#" class="btn btn-light w-100 py-4 shadow-sm rounded-3 text-decoration-none">
+                    <a href="{% url 'perfil_usuario' %}" class="btn btn-light w-100 py-4 shadow-sm rounded-3 text-decoration-none">
                         <i class="fas fa-star fa-2x mb-2"></i>
                         <div>Avaliações</div>
                     </a>
@@ -79,15 +79,17 @@
                 <div class="card-body">
                     <h5 class="card-title mb-3">Caronas Recentes</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Cidade A → Cidade B <span class="badge bg-primary rounded-pill">3 lugares</span> <small class="text-muted">28 de maio</small>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Cidade C → Cidade D <span class="badge bg-primary rounded-pill">2 lugares</span> <small class="text-muted">30 de maio</small>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Cidade E → Cidade F <span class="badge bg-primary rounded-pill">4 lugares</span> <small class="text-muted">2 de junho</small>
-                        </li>
+                        {% if caronas_recentes %}
+                            {% for carona in caronas_recentes %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ carona.origem }} → {{ carona.destino }}
+                                    <span class="badge bg-primary rounded-pill">{{ carona.vagas }} lugares</span>
+                                    <small class="text-muted">{{ carona.data|date:"d/m/Y H:i" }}</small>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item text-center">Nenhuma carona recente encontrada.</li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

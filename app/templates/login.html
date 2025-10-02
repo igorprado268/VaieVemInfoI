@@ -19,7 +19,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="index">
+            <a class="navbar-brand" href="/">
                 <i class="fas fa-car-side me-2"></i>Vai e Vem
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -31,7 +31,7 @@
                         <a class="nav-link" href="/">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cadastro.html">Cadastro</a>
+                        <a class="nav-link" href="{% url 'cadastro' %}">Cadastro</a>
                     </li>
                 </ul>
             </div>
@@ -88,7 +88,7 @@
                                 
                                 <div class="text-center">
                                     <p class="mb-0">Não tem uma conta? 
-                                        <a href="cadastro.html" class="text-decoration-none fw-bold">Cadastre-se</a>
+                                        <a href="{% url 'cadastro' %}" class="text-decoration-none fw-bold">Cadastre-se</a>
                                     </p>
                                 </div>
                             </form>
