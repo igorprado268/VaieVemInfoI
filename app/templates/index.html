@@ -177,12 +177,12 @@
                     <h2 class="fade-in">Pronto para começar?</h2>
                     <p class="fade-in">Junte-se à comunidade Vai e Vem e transforme sua forma de se locomover!</p>
                     <div class="fade-in">
-                        <button class="btn btn-custom-white btn-lg me-3" id="cadastro-modal" onclick="showModal()">
+                        <a href="{% url 'cadastro' %}" class="btn btn-custom-white btn-lg me-3">
                             <i class="fas fa-user-plus me-2"></i>Cadastrar-se
-                        </button>
-                        <button class="btn btn-outline-light btn-lg" id="login-modal" onclick="showLoginModal()">
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
                             <i class="fas fa-sign-in-alt me-2"></i>Fazer Login
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

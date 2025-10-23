@@ -41,12 +41,12 @@ document.querySelectorAll(".fade-in").forEach((el) => {
 //   modal.classList.add("show")
 // }
 // Redirecionar para página de Login
-document.getElementById("login-modal").addEventListener("click", function() {
+document.getElementById("login-modal").addEventListener("click", function () {
   window.location.href = "login.html";
 });
 
 // Redirecionar para página de Cadastro
-document.getElementById("cadastro-modal").addEventListener("click", function() {
+document.getElementById("cadastro-modal").addEventListener("click", function () {
   window.location.href = "cadastro.html";
 });
 
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 
-document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+document.getElementById('cadastroForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
   const form = e.target;
@@ -85,18 +85,18 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
   const email = document.getElementById('email').value;
 
   if (senha !== confirmarSenha) {
-      alert('As senhas não coincidem!');
-      return;
+    alert('As senhas não coincidem!');
+    return;
   }
 
   if (!email.includes('@alunos.ifsuldeminas.edu.br') && !email.includes('@ifsuldeminas.edu.br')) {
-      alert('Por favor, use seu e-mail institucional do IF Sul de Minas!');
-      return;
+    alert('Por favor, use seu e-mail institucional do IF Sul de Minas!');
+    return;
   }
 
   if (senha.length < 6) {
-      alert('A senha deve ter pelo menos 6 caracteres!');
-      return;
+    alert('A senha deve ter pelo menos 6 caracteres!');
+    return;
   }
 
   // preencher o username escondido com o e-mail (ou outra lógica desejada)

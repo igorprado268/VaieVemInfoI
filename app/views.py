@@ -12,26 +12,6 @@ from .forms import CadastroForm, LoginForm, UsuarioForm, CaronaForm, AvaliacaoFo
 def index(request):
     return render(request, "index.html")
 
-# ------------------------------
-# Cadastro de usuário
-# ------------------------------
-# def cadastro_usuario(request):
-#     if request.method == "POST":
-#         form = CadastroForm(request.POST)
-#         if form.is_valid():
-#             usuario = form.save(commit=False)
-#             # se telefone/campus vieram do template e não estão no form:
-#             usuario.telefone = request.POST.get('telefone')
-#             usuario.campus = request.POST.get('campus')
-#             usuario.save()
-#             messages.success(request, "Cadastro realizado com sucesso!")
-#             return redirect("login")
-#         else:
-#             messages.error(request, "Por favor, corrija os erros abaixo.")
-#     else:
-#         form = CadastroForm()
-#     return render(request, "cadastro.html", {"form": form})
-
 def cadastro_usuario(request):
     if request.method == "POST":
         form = CadastroForm(request.POST)
@@ -49,32 +29,6 @@ def cadastro_usuario(request):
     
     return render(request, "cadastro.html", {"form": form})
 
-
-# ------------------------------
-# Login de usuário
-# ------------------------------
-# def login_usuario(request):
-#     if request.method == "POST":
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username_or_email = form.cleaned_data['username']
-#             senha = form.cleaned_data['password']
-
-#             try:
-#                 user_obj = Usuario.objects.get(email=username_or_email)
-#                 usuario = authenticate(request, username=user_obj.username, password=senha)
-#             except Usuario.DoesNotExist:
-#                 usuario = authenticate(request, username=username_or_email, password=senha)
-
-#             if usuario:
-#                 login(request, usuario)
-#                 messages.success(request, "Login realizado com sucesso!")
-#                 return redirect("home")
-#             else:
-#                 messages.error(request, "Usuário ou senha incorretos!")
-#     else:
-#         form = LoginForm()
-#     return render(request, "login.html", {"form": form})
 
 def login_usuario(request):
     if request.method == "POST":
