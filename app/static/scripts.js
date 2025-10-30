@@ -63,17 +63,17 @@ window.addEventListener("scroll", () => {
   }
 })
 
-// Form validation
-document.addEventListener("DOMContentLoaded", () => {
-  const forms = document.querySelectorAll("form")
-  forms.forEach((form) => {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault()
-      // Aqui você pode adicionar a lógica de envio do formulário
-      alert("Funcionalidade em desenvolvimento!")
-    })
-  })
-})
+// // Form validation
+// document.addEventListener("DOMContentLoaded", () => {
+//   const forms = document.querySelectorAll("form")
+//   forms.forEach((form) => {
+//     form.addEventListener("submit", (e) => {
+//       e.preventDefault()
+//       // Aqui você pode adicionar a lógica de envio do formulário
+//       alert("Funcionalidade em desenvolvimento!")
+//     })
+//   })
+// })
 
 
 document.getElementById('cadastroForm').addEventListener('submit', function (e) {

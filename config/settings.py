@@ -82,13 +82,12 @@ os.path.join(BASE_DIR, "app/static/"),
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# LOGIN_URL = 'login'
-# LOGIN_REDIRECT_URL = 'home'
-# LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'index'
 
 AUTH_USER_MODEL = 'app.Usuario'
-
 AUTHENTICATION_BACKENDS = [
-    'app.backends.EmailBackend',  # Login por email (customizado)
-    'django.contrib.auth.backends.ModelBackend',  # Fallback para username
+    'django.contrib.auth.backends.ModelBackend',
+    'app.backends.EmailBackend',
 ]

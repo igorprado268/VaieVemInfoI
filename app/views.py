@@ -12,23 +12,39 @@ from .forms import CadastroForm, LoginForm, UsuarioForm, CaronaForm, AvaliacaoFo
 def index(request):
     return render(request, "index.html")
 
+from django.http import HttpResponse
+
 def cadastro_usuario(request):
+    print("=== CHEGOU REQUISIÇÃO CADASTRO ===")
+    print("MÉTODO:", request.method)
+    print("POST DATA:", request.POST)
+    print("COOKIES:", request.COOKIES)
+
     if request.method == "POST":
         form = CadastroForm(request.POST)
+        print("form.fields:", list(form.fields.keys()))
+        print("form.is_bound:", form.is_bound)
+
         if form.is_valid():
             user = form.save()
-            messages.success(request, "Usuário cadastrado com sucesso! Faça login para continuar.")
+            print("SALVOU USUARIO:", user.pk, user.email, user.username)
+            messages.success(request, "Cadastro realizado com sucesso! Faça login para continuar.")
             return redirect("login")
         else:
-            # Mostra erros do formulário
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field}: {error}")
+            print("ERROS:", form.errors.as_json())
+
+            # adiciona mensagens de erro amigáveis
+            for campo, erros in form.errors.items():
+                for erro in erros:
+                    messages.error(request, f"{erro}")
+
+            # renderiza novamente a página de cadastro com o form
+            return render(request, "cadastro.html", {"form": form})
+
     else:
         form = CadastroForm()
-    
-    return render(request, "cadastro.html", {"form": form})
 
+    return render(request, "cadastro.html", {"form": form})
 
 def login_usuario(request):
     if request.method == "POST":
