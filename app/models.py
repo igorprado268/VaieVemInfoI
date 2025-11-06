@@ -36,6 +36,7 @@ from django.utils import timezone
 #         return self.nome
 
 class Usuario(AbstractUser):
+    nome = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=15, blank=True, null=True)
     campus = models.CharField(max_length=50, blank=True, null=True)
