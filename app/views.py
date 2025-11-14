@@ -5,6 +5,9 @@ from django.utils import timezone
 from datetime import datetime
 from .models import Carona, Usuario, Avaliacao, SolicitacaoVaga
 from .forms import CadastroForm, LoginForm, UsuarioForm, CaronaForm, AvaliacaoForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+
 
 # ------------------------------
 # Página inicial
@@ -74,6 +77,7 @@ def logout_usuario(request):
 # ------------------------------
 # Listagem de caronas
 # ------------------------------
+@login_required
 def lista_caronas(request):
     caronas = Carona.objects.all().order_by("data")
     
@@ -93,6 +97,7 @@ def lista_caronas(request):
 # ------------------------------
 # Publicar nova carona
 # ------------------------------
+@login_required
 def publicar_carona(request):
     if request.method == "POST":
         form = CaronaForm(request.POST)
@@ -109,6 +114,7 @@ def publicar_carona(request):
 # ------------------------------
 # Detalhes da carona
 # ------------------------------
+@login_required
 def detalhes_carona(request, id_carona):
     carona = get_object_or_404(Carona, id_carona=id_carona)
     solicitacoes = SolicitacaoVaga.objects.filter(carona=carona)
@@ -117,6 +123,7 @@ def detalhes_carona(request, id_carona):
 # ------------------------------
 # Redirecionar para WhatsApp
 # ------------------------------
+@login_required
 def redirecionar_whatsapp(request, id_carona):
     carona = get_object_or_404(Carona, id_carona=id_carona)
     numero = getattr(carona.usuario, 'telefone', '000000000')
@@ -125,6 +132,7 @@ def redirecionar_whatsapp(request, id_carona):
 # ------------------------------
 # Perfil do usuário
 # ------------------------------
+@login_required
 def perfil_usuario(request):
     caronas = Carona.objects.filter(usuario=request.user)
     avaliacoes = Avaliacao.objects.filter(avaliado=request.user)
@@ -134,6 +142,7 @@ def perfil_usuario(request):
         "avaliacoes": avaliacoes
     })
 
+@login_required
 def editar_perfil(request):
     if request.method == "POST":
         form = UsuarioForm(request.POST, instance=request.user)
@@ -145,6 +154,7 @@ def editar_perfil(request):
         form = UsuarioForm(instance=request.user)
     return render(request, "editar_perfil.html", {"form": form})
 
+@login_required
 def atualizar_foto(request):
     if request.method == "POST" and request.FILES.get('foto'):
         request.user.foto = request.FILES['foto']
@@ -155,6 +165,7 @@ def atualizar_foto(request):
 # ------------------------------
 # Minhas caronas
 # ------------------------------
+@login_required
 def minhas_caronas(request):
     caronas = Carona.objects.filter(usuario=request.user).order_by("data")
     return render(request, "minhas_caronas.html", {"caronas": caronas})
@@ -162,6 +173,7 @@ def minhas_caronas(request):
 # ------------------------------
 # Solicitar vaga em carona
 # ------------------------------
+@login_required
 def solicitar_vaga(request, id_carona):
     carona = get_object_or_404(Carona, id_carona=id_carona)
     SolicitacaoVaga.objects.create(carona=carona, usuario=request.user)
@@ -171,6 +183,7 @@ def solicitar_vaga(request, id_carona):
 # ------------------------------
 # Avaliar usuário
 # ------------------------------
+@login_required
 def avaliar_usuario(request, id_usuario):
     usuario_avaliado = get_object_or_404(Usuario, id_usuario=id_usuario)
     if request.method == "POST":
@@ -189,7 +202,9 @@ def avaliar_usuario(request, id_usuario):
 # ------------------------------
 # Home
 # ------------------------------
+@login_required
 def home(request):
+    print("Usuário autenticado?", request.user.is_authenticated, request.user)
     # Pega as 5 caronas mais recentes
     caronas_recentes = Carona.objects.all().order_by('-criado_em')[:5]
     return render(request, "home.html", {"caronas_recentes": caronas_recentes})

@@ -30,7 +30,7 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'minhas_caronas' %}">Minhas Caronas</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'perfil_usuario' %}">Perfil</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="{% url 'index' %}">Sair</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger ms-2" href="{% url 'logout' %}">Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -39,7 +39,7 @@
     <!-- Hero Section -->
     <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
         <div class="container">
-            <h1 class="mb-3">Bem-vindo, {{ user.name }}!</h1>
+            <h1 class="mb-3">Bem-vindo, {{ request.user.nome }}!</h1>
             <p class="lead">Gerencie suas caronas, encontre colegas e viaje de forma mais econômica e sustentável.</p>
         </div>
     </section>
@@ -99,7 +99,7 @@
     <!-- Footer -->
     <footer class="footer bg-light py-3 mt-5 shadow-sm">
         <div class="container text-center">
-            <p>&copy; 2024 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
         </div>
     </footer>
 
