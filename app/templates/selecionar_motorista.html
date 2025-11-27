@@ -1,10 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vai e Vem - Avaliar Usuário</title>
+    <title>Vai e Vem - Selecionar Motorista</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -14,6 +15,7 @@
     <!-- CSS Externo -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow-sm">
@@ -39,48 +41,24 @@
     <!-- Hero Section -->
     <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
         <div class="container">
-            <h1 class="mb-3">Avaliar Usuário</h1>
-            <p class="lead">Dê sua avaliação sobre o motorista ou passageiro da carona.</p>
-        </div>
-    </section>
+            <h1 class="mb-3">Selecionar Morista</h1>
 
-    <!-- Formulário de Avaliação -->
-    <section class="review-user py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow-sm p-4">
-                        <h4 class="mb-4">Avaliar {{ usuario.username }}</h4>
+            {% if motoristas %}
+            <ul class="list-group">
+                {% for motorista in motoristas %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ motorista.nome }} ({{ motorista.email }})
+                    <a href="{% url 'avaliar_usuario' motorista.id %}" class="btn btn-primary btn-sm">
+                        Avaliar
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted">Nenhum motorista disponível para avaliação.</p>
+            {% endif %}
 
-                        <form method="POST" >
-                            {% csrf_token %}
-
-                            <!-- Nota -->
-                            <div class="mb-3">
-                                <label for="nota" class="form-label"><strong>Nota:</strong></label>
-                                <select class="form-select" id="nota" name="nota" required>
-                                    <option value="" disabled selected>Selecione a nota</option>
-                                    <option value="5">5 - Excelente</option>
-                                    <option value="4">4 - Bom</option>
-                                    <option value="3">3 - Regular</option>
-                                    <option value="2">2 - Ruim</option>
-                                    <option value="1">1 - Péssimo</option>
-                                </select>
-                            </div>
-
-                            <!-- Comentário -->
-                            <div class="mb-3">
-                                <label for="comentario" class="form-label"><strong>Comentário:</strong></label>
-                                <textarea class="form-control" id="comentario" name="comentario" rows="4" placeholder="Escreva sua avaliação..." required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Enviar Avaliação</button>
-                        </form>
-
-                        <a href="{% url 'lista_caronas' %}" class="btn btn-secondary w-100 mt-3">Voltar</a>
-                    </div>
-                </div>
-            </div>
+            <a href="{% url 'lista_caronas' %}" class="btn btn-secondary mt-3">Voltar</a>
         </div>
     </section>
 
@@ -95,4 +73,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'scripts.js' %}"></script>
 </body>
+
 </html>

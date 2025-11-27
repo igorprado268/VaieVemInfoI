@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vai e Vem - Editar Perfil</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body style="font-family: 'Poppins', sans-serif;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-car-side me-2"></i>Vai e Vem
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_caronas' %}">Procurar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'publicar_carona' %}">Publicar Carona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'minhas_caronas' %}">Minhas Caronas</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'perfil_usuario' %}">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white ms-2" href="{% url 'logout' %}">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
+        <div class="container">
+            <h1 class="mb-2">Editar Perfil</h1>
+            <p class="lead">Atualize seus dados pessoais.</p>
+        </div>
+    </section>
+
+    <!-- Formulário -->
+    <section class="py-5" style="margin-bottom: 80px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm p-4">
+
+                        <h4 class="text-center mb-4">Informações do Usuário</h4>
+
+                        <form method="POST">
+                            {% csrf_token %}
+
+                            <!-- NOME -->
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-user me-2 text-primary"></i>Nome</label>
+                                <input type="text" name="nome" value="{{ user.nome }}" class="form-control" required>
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-envelope me-2 text-primary"></i>Email</label>
+                                <input type="email" name="email" value="{{ user.email }}" class="form-control" required>
+                            </div>
+
+                            <!-- TELEFONE -->
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-phone me-2 text-primary"></i>Telefone</label>
+                                <input type="text" name="telefone" value="{{ user.telefone }}" class="form-control" required>
+                            </div>
+
+                            <!-- CAMPUS -->
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-school me-2 text-primary"></i>Campus</label>
+                                <select name="campus" class="form-control" required>
+                                    <option selected>{{ user.campus }}</option>
+                                    <option>Muzambinho</option>
+                                    <option>Passos</option>
+                                    <option>Inconfidentes</option>
+                                    <option>Carmo de Minas</option>
+                                </select>
+                            </div>
+
+                            <!-- BOTÃO SALVAR -->
+                            <button class="btn btn-primary w-100 mt-3">
+                                <i class="fas fa-save me-2"></i>Salvar Alterações
+                            </button>
+
+                        </form>
+
+                        <!-- VOLTAR -->
+                        <a href="{% url 'perfil_usuario' %}" class="btn btn-secondary w-100 mt-3">
+                            <i class="fas fa-arrow-left me-2"></i>Voltar ao Perfil
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-danger text-white py-3 shadow-sm fixed-bottom">
+        <div class="container text-center">
+            <p>&copy; 2025 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'scripts.js' %}"></script>
+
+</body>
+</html>

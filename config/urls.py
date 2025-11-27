@@ -22,6 +22,7 @@ urlpatterns = [
     path('caronas/', views.lista_caronas, name='lista_caronas'),
     path('caronas/nova/', views.publicar_carona, name='publicar_carona'),
     path('caronas/<int:id_carona>/', views.detalhes_carona, name='detalhes_carona'),
+    path('detalhes_minhas_caronas/<int:id_carona>/', views.detalhes_minhas_caronas, name='detalhes_minhas_caronas'),
     path('caronas/<int:id_carona>/contato/', views.redirecionar_whatsapp, name='redirecionar_whatsapp'),
     path('caronas/<int:id_carona>/solicitar/', views.solicitar_vaga, name='solicitar_vaga'),
     # ------------------------------
@@ -29,10 +30,16 @@ urlpatterns = [
     # ------------------------------
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
-    path('perfil/foto/', views.atualizar_foto, name='atualizar_foto'),
     path('minhas_caronas/', views.minhas_caronas, name='minhas_caronas'),
     # ------------------------------
     # Avaliações
     # ------------------------------
+    path("selecionar-motorista/", views.selecionar_motorista, name="selecionar_motorista"),
     path('avaliacoes/<int:id_usuario>/', views.avaliar_usuario, name='avaliar_usuario'),
+    path('avaliacoes_usuario/<int:id_usuario>/<int:id_carona>/', views.avaliacoes_usuario, name='avaliacoes_usuario'),
+
+
+    path('carona/excluir/<int:id_carona>/', views.excluir_carona, name='excluir_carona'),
+    path('editar_perfil', views.editar_perfil, name='editar_perfil'),
+
 ]

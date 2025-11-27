@@ -1,10 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vai e Vem - Avaliar Usuário</title>
+    <title>Vai e Vem - Detalhes da Carona</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -13,7 +14,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!-- CSS Externo -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            padding-bottom: 90px;
+        }
+    </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow-sm">
@@ -39,45 +46,58 @@
     <!-- Hero Section -->
     <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
         <div class="container">
-            <h1 class="mb-3">Avaliar Usuário</h1>
-            <p class="lead">Dê sua avaliação sobre o motorista ou passageiro da carona.</p>
+            <h1 class="mb-3">Detalhes da Carona</h1>
+            <p class="lead">Confira todas as informações antes de solicitar sua vaga.</p>
         </div>
     </section>
 
-    <!-- Formulário de Avaliação -->
-    <section class="review-user py-5">
+    <!-- Detalhes da Carona -->
+    <section class="details py-5">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="card shadow-sm p-4">
-                        <h4 class="mb-4">Avaliar {{ usuario.username }}</h4>
+                        <h4 class="mb-3">{{ carona.origem }} → {{ carona.destino }}</h4>
 
-                        <form method="POST" >
+                        <div class="mb-3">
+                            <p><strong>Motorista:</strong> {{ carona.usuario.nome }}</p>
+                            <p><strong>Data:</strong> {{ carona.data }}</p>
+                            <p><strong>Lugares disponíveis:</strong> {{ carona.vagas }}</p>
+                            {% if carona.observacoes %}
+                            <p><strong>Observações:</strong> {{ carona.observacoes }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Informações do motorista -->
+                        <div class="mb-3 border-top pt-3">
+                            <h5>Sobre o motorista</h5>
+                            <p><strong>Telefone:</strong> {{ carona.usuario.telefone }}</p>
+                            <p class="mt-2"><strong>Email:</strong> {{ carona.usuario.email }}</p>
+                        </div>
+
+                        <!-- Botão WhatsApp -->
+                        <a href="https://wa.me/{{ carona.usuario.telefone }}?text=Ol%C3%A1%2C%20voce%20pode%20me%20dar%20uma%20carona?%20Peguei%20seu%20numero%20no%20site%20Vai%20e%20Vem!"
+                           target="_blank"
+                           class="btn btn-success w-100 mb-3">
+                           Chamar no WhatsApp
+                        </a>
+
+                        <!-- Botão Excluir (somente para o dono da carona) -->
+                        {% if request.user == carona.usuario %}
+                        <form action="{% url 'excluir_carona' carona.id_carona %}" method="POST">
                             {% csrf_token %}
-
-                            <!-- Nota -->
-                            <div class="mb-3">
-                                <label for="nota" class="form-label"><strong>Nota:</strong></label>
-                                <select class="form-select" id="nota" name="nota" required>
-                                    <option value="" disabled selected>Selecione a nota</option>
-                                    <option value="5">5 - Excelente</option>
-                                    <option value="4">4 - Bom</option>
-                                    <option value="3">3 - Regular</option>
-                                    <option value="2">2 - Ruim</option>
-                                    <option value="1">1 - Péssimo</option>
-                                </select>
-                            </div>
-
-                            <!-- Comentário -->
-                            <div class="mb-3">
-                                <label for="comentario" class="form-label"><strong>Comentário:</strong></label>
-                                <textarea class="form-control" id="comentario" name="comentario" rows="4" placeholder="Escreva sua avaliação..." required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Enviar Avaliação</button>
+                            <button class="btn btn-danger w-100"
+                                onclick="return confirm('Tem certeza que deseja excluir esta carona?')">
+                                Excluir Carona
+                            </button>
                         </form>
+                        {% endif %}
 
-                        <a href="{% url 'lista_caronas' %}" class="btn btn-secondary w-100 mt-3">Voltar</a>
+                        <!-- Botão Voltar -->
+                        <a href="{% url 'minhas_caronas' %}" class="btn btn-secondary w-100 mt-3">
+                            Voltar para Lista
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -85,7 +105,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer bg-light py-3 mt-5 shadow-sm">
+    <footer class="footer bg-danger text-white py-3 shadow-sm fixed-bottom">
         <div class="container text-center">
             <p>&copy; 2025 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
         </div>
@@ -95,4 +115,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'scripts.js' %}"></script>
 </body>
+
 </html>

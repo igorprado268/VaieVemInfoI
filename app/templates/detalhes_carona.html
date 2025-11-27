@@ -14,6 +14,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!-- CSS Externo -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            padding-bottom: 90px;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,12 +60,17 @@
                         <h4 class="mb-3">{{ carona.origem }} → {{ carona.destino }}</h4>
 
                         <div class="mb-3">
-                            <p><strong>Motorista:</strong> {{ carona.usuario.nome }}</p>
+                            <p><strong>Motorista: </strong>{{ carona.usuario.nome }}</a></p>
                             <p><strong>Data:</strong> {{ carona.data }}</p>
                             <p><strong>Lugares disponíveis:</strong> {{ carona.vagas }}</p>
                             {% if carona.observacoes %}
                             <p><strong>Observações:</strong> {{ carona.observacoes }}</p>
                             {% endif %}
+                            <a class="" href="{% url 'avaliacoes_usuario' request.user.id carona.id_carona %}">
+                                <a href="{% url 'avaliacoes_usuario' request.user.id carona.id_carona %}"
+                                class="btn btn-primary w-100 mb-3">
+                                Avaliações do Motorista 
+                             </a>
                         </div>
 
                         <!-- Informações do motorista -->
@@ -72,8 +82,11 @@
 
                         <!-- Botão Solicitar Vaga -->
 
-                        <a href="https://wa.me/{{ carona.usuario.telefone }}?text=Ol%C3%A1%2C%20voce%20pode%20me%20dar%20uma%20carona?%20Peguei%20seu%20numero%20no%20site%20Vai%20e%20Vem!" target="_blank">
-                            Chamar no WhatsApp
+                        <!-- Botão WhatsApp -->
+                        <a href="https://wa.me/{{ carona.usuario.telefone }}?text=Ol%C3%A1%2C%20voce%20pode%20me%20dar%20uma%20carona?%20Peguei%20seu%20numero%20no%20site%20Vai%20e%20Vem!"
+                           target="_blank"
+                           class="btn btn-success w-100 mb-3">
+                           Chamar no WhatsApp
                         </a>
 
 
@@ -85,9 +98,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer bg-light py-3 mt-5 shadow-sm">
+    <footer class="footer bg-danger text-white py-3 shadow-sm fixed-bottom">
         <div class="container text-center">
-            <p>&copy; 2024 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
         </div>
     </footer>
 

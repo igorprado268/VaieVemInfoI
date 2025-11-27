@@ -50,6 +50,10 @@ def cadastro_usuario(request):
     return render(request, "cadastro.html", {"form": form})
 
 def login_usuario(request):
+    # Evita sessão antiga ficar ativa
+    if request.user.is_authenticated:
+        logout(request)
+
     if request.method == "POST":
         email = request.POST.get("username")  # O campo do form se chama username
         senha = request.POST.get("password")
@@ -70,6 +74,7 @@ def login_usuario(request):
 # ------------------------------
 # Logout
 # ------------------------------
+@login_required
 def logout_usuario(request):
     logout(request)
     return redirect("index")
@@ -121,6 +126,15 @@ def detalhes_carona(request, id_carona):
     return render(request, "detalhes_carona.html", {"carona": carona, "solicitacoes": solicitacoes})
 
 # ------------------------------
+# Detalhes minhas caronas
+# ------------------------------
+@login_required
+def detalhes_minhas_caronas(request, id_carona):
+    carona = get_object_or_404(Carona, id_carona=id_carona)
+    solicitacoes = SolicitacaoVaga.objects.filter(carona=carona)
+    return render(request, "detalhes_minhas_caronas.html", {"carona": carona, "solicitacoes": solicitacoes})
+
+# ------------------------------
 # Redirecionar para WhatsApp
 # ------------------------------
 @login_required
@@ -142,6 +156,24 @@ def perfil_usuario(request):
         "avaliacoes": avaliacoes
     })
 
+# ------------------------------
+# avaliacoes do usuário
+# ------------------------------
+@login_required
+def avaliacoes_usuario(request, id_usuario, id_carona):
+    usuario_avaliado = get_object_or_404(Usuario, id=id_usuario)
+    carona = get_object_or_404(Carona, id_carona=id_carona)
+
+    # Agora sim: pegar avaliações RECEBIDAS pelo motorista
+    avaliacoes = Avaliacao.objects.filter(avaliado=usuario_avaliado).order_by('-data')
+
+    return render(request, "avaliacoes_usuario.html", {
+        "usuario_avaliado": usuario_avaliado,
+        "carona": carona,
+        "avaliacoes": avaliacoes,
+    })
+
+
 @login_required
 def editar_perfil(request):
     if request.method == "POST":
@@ -153,14 +185,6 @@ def editar_perfil(request):
     else:
         form = UsuarioForm(instance=request.user)
     return render(request, "editar_perfil.html", {"form": form})
-
-@login_required
-def atualizar_foto(request):
-    if request.method == "POST" and request.FILES.get('foto'):
-        request.user.foto = request.FILES['foto']
-        request.user.save()
-        messages.success(request, "Foto atualizada com sucesso!")
-    return redirect("perfil_usuario")
 
 # ------------------------------
 # Minhas caronas
@@ -185,7 +209,13 @@ def solicitar_vaga(request, id_carona):
 # ------------------------------
 @login_required
 def avaliar_usuario(request, id_usuario):
-    usuario_avaliado = get_object_or_404(Usuario, id_usuario=id_usuario)
+    usuario_avaliado = get_object_or_404(Usuario, id=id_usuario)
+
+    # Impedir que o usuário se avalie
+    if usuario_avaliado == request.user:
+        messages.error(request, "Você não pode se autoavaliar.")
+        return redirect("selecionar_motorista")
+
     if request.method == "POST":
         form = AvaliacaoForm(request.POST)
         if form.is_valid():
@@ -194,10 +224,25 @@ def avaliar_usuario(request, id_usuario):
             avaliacao.avaliado = usuario_avaliado
             avaliacao.save()
             messages.success(request, "Avaliação registrada com sucesso!")
-            return redirect("lista_caronas")
+            return redirect("home")
     else:
         form = AvaliacaoForm()
+
     return render(request, "avaliar_usuario.html", {"form": form, "usuario": usuario_avaliado})
+
+# ------------------------------
+# selec motorista
+@login_required
+def selecionar_motorista(request):
+    # Motorista é qualquer usuário que tenha pelo menos 1 carona publicada
+    motoristas = Usuario.objects.filter(caronas__isnull=False).distinct()
+
+    # Evita que o usuário avalie a si mesmo
+    motoristas = motoristas.exclude(id=request.user.id)
+
+    return render(request, "selecionar_motorista.html", {"motoristas": motoristas})
+
+# ------------------------------
 
 # ------------------------------
 # Home
@@ -208,3 +253,42 @@ def home(request):
     # Pega as 5 caronas mais recentes
     caronas_recentes = Carona.objects.all().order_by('-criado_em')[:5]
     return render(request, "home.html", {"caronas_recentes": caronas_recentes})
+
+
+
+def excluir_carona(request, id_carona):
+    carona = get_object_or_404(Carona, id_carona=id_carona)
+
+    # Segurança: apenas o dono consegue excluir
+    if request.user != carona.usuario:
+        messages.error(request, "Você não tem permissão para excluir esta carona.")
+        return redirect('minhas_caronas')
+
+    if request.method == "POST":
+        carona.delete()
+        messages.success(request, "Carona excluída com sucesso!")
+        return redirect('minhas_caronas')
+
+    return redirect('minhas_caronas')
+
+@login_required
+def editar_perfil(request):
+    usuario = request.user  # usuário logado
+
+    if request.method == "POST":
+        nome = request.POST.get("nome")
+        email = request.POST.get("email")
+        telefone = request.POST.get("telefone")
+        campus = request.POST.get("campus")
+
+        # Atualizando os campos
+        usuario.nome = nome
+        usuario.email = email
+        usuario.telefone = telefone
+        usuario.campus = campus
+        usuario.save()
+
+        messages.success(request, "Perfil atualizado com sucesso!")
+        return redirect("perfil_usuario")
+
+    return render(request, "editar_perfil.html", {"usuario": usuario})
