@@ -41,7 +41,7 @@
     <!-- Hero Section -->
     <section class="hero text-center py-5 bg-primary text-white" style="margin-top: 70px;">
         <div class="container">
-            <h1 class="mb-3">Selecionar Morista</h1>
+            <h1 class="mb-3">Selecionar Morista</h1> <br>
 
             {% if motoristas %}
             <ul class="list-group">
@@ -58,12 +58,12 @@
             <p class="text-muted">Nenhum motorista disponível para avaliação.</p>
             {% endif %}
 
-            <a href="{% url 'lista_caronas' %}" class="btn btn-secondary mt-3">Voltar</a>
+            <br><a href="{% url 'home' %}" class="btn btn-secondary mt-3" style="z-index: 999; position: relative;" >Voltar</a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer bg-light py-3 mt-5 shadow-sm">
+    <footer class="footer bg-danger text-white py-3 shadow-sm fixed-bottom">
         <div class="container text-center">
             <p>&copy; 2025 Vai e Vem - IF Sul de Minas. Todos os direitos reservados.</p>
         </div>

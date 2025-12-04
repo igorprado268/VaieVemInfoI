@@ -3,38 +3,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils import timezone
 
-# ------------------------------
-# Usuário customizado
-# ------------------------------
-# class Usuario(AbstractUser):
-#     id_usuario = models.AutoField(primary_key=True)
-#     nome = models.CharField(max_length=100)
-#     email = models.EmailField(unique=True)
-#     senha = models.CharField(max_length=255)  # Django faz hash da senha automaticamente
-#     telefone = models.CharField(max_length=20, blank=True, null=True)
-#     foto = models.ImageField(upload_to='usuarios/fotos/', blank=True, null=True)
-#     is_admin = models.BooleanField(default=False)
-
-#     # Evitar conflito com grupos e permissões do Django
-#     groups = models.ManyToManyField(
-#         Group,
-#         related_name="custom_user_groups",
-#         blank=True,
-#         help_text="Grupos aos quais este usuário pertence."
-#     )
-#     user_permissions = models.ManyToManyField(
-#         Permission,
-#         related_name="custom_user_permissions",
-#         blank=True,
-#         help_text="Permissões específicas deste usuário."
-#     )
-
-#     USERNAME_FIELD = "email"
-#     REQUIRED_FIELDS = ["nome", "username"]  # 'username' ainda é exigido pelo AbstractUser
-
-#     def __str__(self):
-#         return self.nome
-
 class Usuario(AbstractUser):
     nome = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)
@@ -43,6 +11,7 @@ class Usuario(AbstractUser):
     # Define email como campo de autenticação
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']  # username ainda é necessário mas não para login
+
     
     def __str__(self):
         return self.email
@@ -64,6 +33,9 @@ class Carona(models.Model):
     vagas = models.PositiveIntegerField()
     observacoes = models.TextField(blank=True, null=True)
     criado_em = models.DateTimeField(default=timezone.now)
+    ativa = models.BooleanField(default=True)
+    excluida = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"{self.origem} → {self.destino} ({self.data.strftime('%d/%m/%Y %H:%M')})"

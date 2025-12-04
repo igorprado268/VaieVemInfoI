@@ -55,16 +55,18 @@
                             <p class="mb-0 mt-2">Junte-se à comunidade de caronas solidárias</p>
                         </div>
                         <div class="card-body p-4">
-
                             {% if messages %}
                             {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-2" role="alert">
+                            {% if 'error' in message.tags %}
+                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
                                 {{ message }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                                     aria-label="Fechar"></button>
                             </div>
+                            {% endif %}
                             {% endfor %}
                             {% endif %}
+
 
 
                             <!-- FORMULARIO -->
@@ -80,7 +82,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        <i class="fas fa-envelope me-1"></i>E-mail Institucional
+                                        <i class="fas fa-envelope me-1"></i>E-mail
                                     </label>
                                     <input type="email" class="form-control" name="email" required>
                                 </div>

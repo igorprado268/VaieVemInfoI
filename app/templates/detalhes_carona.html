@@ -66,8 +66,8 @@
                             {% if carona.observacoes %}
                             <p><strong>Observações:</strong> {{ carona.observacoes }}</p>
                             {% endif %}
-                            <a class="" href="{% url 'avaliacoes_usuario' request.user.id carona.id_carona %}">
-                                <a href="{% url 'avaliacoes_usuario' request.user.id carona.id_carona %}"
+                            <a class="" href="{% url 'avaliacoes_usuario' carona.usuario.id carona.id_carona %}">
+                                <a href="{% url 'avaliacoes_usuario' carona.usuario.id carona.id_carona %}"
                                 class="btn btn-primary w-100 mb-3">
                                 Avaliações do Motorista 
                              </a>

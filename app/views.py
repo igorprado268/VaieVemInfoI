@@ -8,6 +8,8 @@ from .forms import CadastroForm, LoginForm, UsuarioForm, CaronaForm, AvaliacaoFo
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
+from django.utils import timezone
+
 
 # ------------------------------
 # Página inicial
@@ -83,8 +85,16 @@ def logout_usuario(request):
 # Listagem de caronas
 # ------------------------------
 @login_required
+@login_required
 def lista_caronas(request):
-    caronas = Carona.objects.all().order_by("data")
+    agora = timezone.now()
+
+    # Buscar somente caronas ativas, não excluídas e futuras
+    caronas = Carona.objects.filter(
+        ativa=True,
+        excluida=False,
+        data__gte=agora
+    ).order_by("data")
     
     cidade_partida = request.GET.get('cidade_partida')
     cidade_destino = request.GET.get('cidade_destino')
@@ -148,7 +158,7 @@ def redirecionar_whatsapp(request, id_carona):
 # ------------------------------
 @login_required
 def perfil_usuario(request):
-    caronas = Carona.objects.filter(usuario=request.user)
+    caronas = Carona.objects.filter(usuario=request.user, ativa=True, excluida=False)
     avaliacoes = Avaliacao.objects.filter(avaliado=request.user)
     return render(request, "perfil_usuario.html", {
         "usuario": request.user,
@@ -191,10 +201,12 @@ def editar_perfil(request):
 # ------------------------------
 @login_required
 def minhas_caronas(request):
-    caronas = Carona.objects.filter(usuario=request.user).order_by("data")
+    caronas = Carona.objects.filter(
+        usuario=request.user
+    ).order_by("data")
+
     return render(request, "minhas_caronas.html", {"caronas": caronas})
 
-# ------------------------------
 # Solicitar vaga em carona
 # ------------------------------
 @login_required
@@ -213,7 +225,6 @@ def avaliar_usuario(request, id_usuario):
 
     # Impedir que o usuário se avalie
     if usuario_avaliado == request.user:
-        messages.error(request, "Você não pode se autoavaliar.")
         return redirect("selecionar_motorista")
 
     if request.method == "POST":
@@ -249,11 +260,15 @@ def selecionar_motorista(request):
 # ------------------------------
 @login_required
 def home(request):
-    print("Usuário autenticado?", request.user.is_authenticated, request.user)
-    # Pega as 5 caronas mais recentes
-    caronas_recentes = Carona.objects.all().order_by('-criado_em')[:5]
-    return render(request, "home.html", {"caronas_recentes": caronas_recentes})
+    agora = timezone.now()
 
+    caronas_recentes = Carona.objects.filter(
+        ativa=True,
+        excluida=False,
+        data__gte=agora
+    ).order_by('-criado_em')[:5]
+
+    return render(request, "home.html", {"caronas_recentes": caronas_recentes})
 
 
 def excluir_carona(request, id_carona):
